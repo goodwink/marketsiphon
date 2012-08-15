@@ -1,6 +1,11 @@
 GIT
-  remote: git://github.com/intridea/grape.git
-  revision: 8d157245f0ad7b8bb579ccb89c7474e4934bda2f
+  remote: git://github.com/intridea/multi_json.git
+  revision: c2868727b3d18089ce37ab24eaa30b888bf0d4f9
+  specs:
+    multi_json (1.3.6)
+
+PATH
+  remote: ~/dev/grape
   specs:
     grape (0.2.1)
       hashie (~> 1.2)
@@ -9,12 +14,6 @@ GIT
       rack
       rack-mount
       virtus
-
-GIT
-  remote: git://github.com/intridea/multi_json.git
-  revision: c2868727b3d18089ce37ab24eaa30b888bf0d4f9
-  specs:
-    multi_json (1.3.6)
 
 GEM
   remote: http://rubygems.org/
@@ -26,10 +25,18 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.3.3)
+    columnize (0.3.6)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
+    debugger (1.1.1)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1)
+      debugger-ruby_core_source (~> 1.1)
+    debugger-linecache (1.1.1)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.2)
     execjs (1.4.0)
       multi_json (~> 1.0)
     fssm (0.2.9)
@@ -89,6 +96,7 @@ DEPENDENCIES
   bootstrap-sass
   coffee-script
   compass
+  debugger
   execjs
   grape!
   mail

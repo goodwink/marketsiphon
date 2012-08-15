@@ -8,7 +8,7 @@ gem 'compass'
 gem 'bootstrap-sass'
 
 gem 'multi_json', github: 'intridea/multi_json'
-gem 'grape', github: 'intridea/grape'
+gem 'grape', github: 'goodwink/grape'
 
 gem 'redis'
 gem 'redis-objects', require: 'redis/objects'
@@ -19,3 +19,4 @@ gem 'therubyracer'
 gem 'mail'
 gem 'racksh'
 gem 'unicorn'
+gem 'debugger'
