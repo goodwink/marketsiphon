@@ -1,11 +1,12 @@
 require 'uri'
 require 'securerandom'
 require 'redis/hash_key'
+require 'redis/list'
 
 module MarketSiphon
   class API < Grape::API
     default_format :json
-    rescue_from :all
+    #rescue_from :all
     error_format :json
 
     resource :tickets do
@@ -22,9 +23,8 @@ module MarketSiphon
 
         if account['secret'] == secret
           guid = SecureRandom.uuid
-          ticket = Redis::HashKey.new('ticket:' + guid)
+          ticket = Redis::HashKey.new('tickets:' + guid)
           ticket['token'] = token
-          ticket['elevated'] = true
 
           cookies['ticket'] = guid
           {ticket: guid}
@@ -49,11 +49,14 @@ module MarketSiphon
         if account['target'] == target
           ip = env['REMOTE_ADDR']
 
-          referral = Redis::HashKey.new('referrals:' + token + 'visitor:' + ip)
+          referral = Redis::HashKey.new('referrals:' + token + ':visitor:' + ip)
 
           if !referral[:converted]
             referral['source'] = source
             referral['target'] = target
+
+            referrals_list = Redis::List.new('referrals:' + token)
+            referrals_list << ip
 
             {referral: {credit: true}}
           else
@@ -61,6 +64,23 @@ module MarketSiphon
           end
         else
           error!({error: {message: 'Invalid token or token is not associated with specified target url.'}}, 403)
+        end
+      end
+
+      desc 'Get a list of referrals for a single account'
+      get do
+        guid = env['HTTP_AUTHORIZATION'] || cookies['ticket']
+        ticket = Redis::HashKey.new('tickets:' + guid)
+        account = ticket['token'] ? Redis::HashKey.new('accounts:' + ticket['token']) : nil
+
+        if account && !account.empty?
+          referrals = Redis::List.new('referrals:' + ticket['token']).map do |ip|
+            HashKey.new('referrals:' + ticket['token'] + ':visitor:' + ip)
+          end
+
+          {referrals: referrals}
+        else
+          error!({error: {message: 'Invalid session ticket.'}}, 403)
         end
       end
     end
