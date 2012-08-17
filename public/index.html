@@ -1,8 +1,42 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" ng-app="marketsiphon">
 <head>
-  <title>Welcome!</title>
+  <meta charset="utf-8">
+  <title>Market Siphon</title>
+  <link rel="stylesheet" href="/assets/application.css">
+  <script src="/assets/application.js"></script>
 </head>
 <body>
-  W00t!
+  <div class="container-fluid">
+    <div class="row-fluid" ng-controller="ReferralListController">
+      <div class="span4">
+        <form class="well form-search">
+          <input ng-model="query" type="text" class="input-medium search-query" placeholder="Filter..."></input>
+        </form>
+      </div>
+      <div class="span6">
+        <div class="well">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Target</th>
+                <th>IP Address</th>
+                <th>Converted?</th>
+              </tr>
+            </thead>
+            <tbody class="referrals">
+              <tr ng-repeat="referral in referrals | filter:query">
+                <td>{{referral.source}}</td>
+                <td>{{referral.target}}</td>
+                <td>{{referral.ip}}</td>
+                <td>{{referral.converted}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

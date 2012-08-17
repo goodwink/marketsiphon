@@ -54,6 +54,7 @@ module MarketSiphon
           if !referral[:converted]
             referral['source'] = source
             referral['target'] = target
+            referral['ip'] = ip
 
             referrals_list = Redis::List.new('referrals:' + token)
             referrals_list << ip
@@ -70,17 +71,22 @@ module MarketSiphon
       desc 'Get a list of referrals for a single account'
       get do
         guid = env['HTTP_AUTHORIZATION'] || cookies['ticket']
-        ticket = Redis::HashKey.new('tickets:' + guid)
-        account = ticket['token'] ? Redis::HashKey.new('accounts:' + ticket['token']) : nil
 
-        if account && !account.empty?
-          referrals = Redis::List.new('referrals:' + ticket['token']).map do |ip|
-            HashKey.new('referrals:' + ticket['token'] + ':visitor:' + ip)
+        if guid
+          ticket = Redis::HashKey.new('tickets:' + guid)
+          account = ticket['token'] ? Redis::HashKey.new('accounts:' + ticket['token']) : nil
+
+          if account && !account.empty?
+            referrals = Redis::List.new('referrals:' + ticket['token']).map do |ip|
+              HashKey.new('referrals:' + ticket['token'] + ':visitor:' + ip)
+            end
+
+            {referrals: referrals}
+          else
+            error!({error: {message: 'Invalid session ticket.'}}, 403)
           end
-
-          {referrals: referrals}
         else
-          error!({error: {message: 'Invalid session ticket.'}}, 403)
+          error!({error: {message: 'Must provide AUTHORIZATION header containing valid session ticket.'}}, 401)
         end
       end
     end
