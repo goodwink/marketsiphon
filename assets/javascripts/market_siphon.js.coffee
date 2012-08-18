@@ -1,1 +1,3 @@
-angular.module('marketsiphon', ['marketsiphonServices'])
+angular.module('MarketSiphon', ['MarketSiphonServices'])
+
+angular.module('MarketSiphon').controller 'ReferralListController', ReferralListController

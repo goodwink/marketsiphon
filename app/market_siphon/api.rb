@@ -1,7 +1,9 @@
 require 'uri'
 require 'securerandom'
+require 'erb'
 require 'redis/hash_key'
 require 'redis/list'
+require 'redis/set'
 
 module MarketSiphon
   class API < Grape::API
@@ -12,6 +14,21 @@ module MarketSiphon
     helpers do
       def web_bug_gif
         Base64.decode64("R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==")
+      end
+    end
+
+    resource :template do
+      desc 'Get web bug insertion javascript template for account using token'
+      params do
+        requires :token, type: String, desc: 'account token'
+      end
+      get do
+        token = params[:token]
+        server_host = env['SERVER_NAME'] + (env['SERVER_PORT'] != '80' ? ':' + env['SERVER_PORT'] : '')
+        b = binding
+        rhtml = ERB.new(File.read('app/market_siphon/templates/web_bug_template.erb'))
+
+        rhtml.result b
       end
     end
 
@@ -32,7 +49,7 @@ module MarketSiphon
           ticket = Redis::HashKey.new('tickets:' + guid)
           ticket['token'] = token
 
-          cookies['ticket'] = guid
+          cookies[:_marketsiphon_ticket] = guid
           {ticket: guid}
         else
           error!({error: {message: 'Invalid token or secret, ticket creation failed.'}}, 403)
@@ -66,9 +83,9 @@ module MarketSiphon
             referrals_list = Redis::List.new('referrals:' + token)
             referrals_list << ip
 
-            {referral: {credit: true}}
+            {credit: true}
           else
-            {referral: {credit: false}}
+            {credit: false}
           end
         else
           error!({error: {message: 'Invalid token or token is not associated with specified target url.'}}, 403)
@@ -99,8 +116,10 @@ module MarketSiphon
               referral['target'] = target
               referral['ip'] = ip
 
-              referrals_list = Redis::List.new('referrals:' + token)
-              referrals_list << ip
+              referrals_to_set = Redis::Set.new('referrals_to:' + token)
+              referrals_from_set = Redis::Set.new('referrals_from:' + source)
+              referrals_to_set << ip
+              referrals_from_set << ip
             end
           end
         end
@@ -110,18 +129,24 @@ module MarketSiphon
 
       desc 'Get a list of referrals for a single account'
       get do
-        guid = env['HTTP_AUTHORIZATION'] || cookies['ticket']
+        guid = env['HTTP_AUTHORIZATION'] || cookies[:_marketsiphon_ticket]
 
         if guid
           ticket = Redis::HashKey.new('tickets:' + guid)
           account = ticket['token'] ? Redis::HashKey.new('accounts:' + ticket['token']) : nil
 
           if account && !account.empty?
-            referrals = Redis::List.new('referrals:' + ticket['token']).map do |ip|
-              HashKey.new('referrals:' + ticket['token'] + ':visitor:' + ip)
+            if account['affiliate']
+              referrals = Redis::Set.new('referrals_from:' + account['source']).members.map do |ip|
+                Redis::HashKey.new('referrals:' + ticket['token'] + ':visitor:' + ip).all
+              end
+            else
+              referrals = Redis::Set.new('referrals_to:' + ticket['token']).members.map do |ip|
+                Redis::HashKey.new('referrals:' + ticket['token'] + ':visitor:' + ip).all
+              end
             end
 
-            {referrals: referrals}
+            referrals
           else
             error!({error: {message: 'Invalid session ticket.'}}, 403)
           end
@@ -152,9 +177,9 @@ module MarketSiphon
             referral['validation_token'] = params[:validation_token]
             referral['converted'] = true
 
-            {conversion: {credit: true}}
+            {credit: true}
           else
-            {conversion: {credit: false}}
+            {credit: false}
           end
         else
           error!({error: {message: 'Invalid token or token is not associated with specified target url.'}}, 403)

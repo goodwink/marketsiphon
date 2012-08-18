@@ -2,5 +2,6 @@
 //= require bootstrap
 //= require angular-1.0.1
 //= require angular-resource-1.0.1
+//= require_tree ./controllers
+//= require services
 //= require market_siphon
-//= require_tree .

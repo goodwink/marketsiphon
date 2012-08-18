@@ -1,13 +1,24 @@
 <html>
 <head>
   <title>Test Target Page</title>
+  <script type="text/javascript">
+    // Your MarketSiphon token:
+    window.__mswbq_token =
+      'b1139b3f-05ac-428c-be45-d65387cea6cd';
+
+    (function() {
+      var mswb = document.createElement('script');
+      mswb.type = 'text/javascript';
+      mswb.async = true;
+      mswb.id = '__mswb'
+      mswb.src = 'http://localhost:8080/assets/mswb.js';
+
+      var script = document.getElementsByTagName('script')[0];
+      script.parentNode.insertBefore(mswb, script);
+    })();
+  </script>
 </head>
 <body>
   Buy something!
-
-  <script>
-    var i = new Image(); 
-    i.src = "http://localhost:8080/api/referrals/new?token=b1139b3f-05ac-428c-be45-d65387cea6cd&source_url=http%3A%2F%2Fbadassrockstartech.com%2F";
-  </script>
 </body>
 </html>

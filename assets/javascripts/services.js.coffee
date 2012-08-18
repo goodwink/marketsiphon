@@ -1,2 +1,6 @@
-angular.module('marketsiphonServices', ['ngResource']).factory 'Referral', ($resource) ->
-  $resource '/api/referrals/:id', {}
+angular.module('MarketSiphonServices', ['ngResource'])
+  .factory('TicketService', ($resource) ->
+    $resource '/api/tickets/:id', {})
+
+  .factory('ReferralService', ($resource) ->
+    $resource '/api/referrals/:id', {})

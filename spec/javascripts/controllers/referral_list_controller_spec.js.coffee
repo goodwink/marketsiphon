@@ -1,10 +1,11 @@
 scope = controller = $httpBackend = {}
 
-beforeEach(module('marketsiphonServices'))
+beforeEach(module('MarketSiphonServices'))
 
 describe 'ReferralListController', ->
   beforeEach inject (_$httpBackend_, $rootScope, $controller) ->
     $httpBackend = _$httpBackend_
+    $httpBackend.expectPOST('/api/tickets').respond []
     $httpBackend.expectGET('/api/referrals').respond [
         source: 'foo'
         target: 'bar'
@@ -16,7 +17,7 @@ describe 'ReferralListController', ->
     controller = $controller(ReferralListController, $scope: scope)
 
   it 'should have a "referrals" model with 1 referral', ->
-    expect(scope.referrals).toEqual []
+    expect(scope.referrals).toEqual undefined
     $httpBackend.flush()
     expect(scope.referrals.length).toBe 1
     expect(angular.equals(scope.referrals[0],
