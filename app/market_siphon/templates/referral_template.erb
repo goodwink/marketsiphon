@@ -1,0 +1,16 @@
+<script type="text/javascript">
+  // Your MarketSiphon token:
+  window.__mswbq_token =
+    "<%= token %>";
+
+  (function() {
+    var mswb = document.createElement('script');
+    mswb.type = 'text/javascript';
+    mswb.async = true;
+    mswb.id = '__mswb'
+    mswb.src = 'http://<%= server_host %>/assets/msrwb.js';
+
+    var script = document.getElementsByTagName('script')[0];
+    script.parentNode.insertBefore(mswb, script);
+  })();
+</script>

@@ -17,16 +17,29 @@ module MarketSiphon
       end
     end
 
-    resource :template do
-      desc 'Get web bug insertion javascript template for account using token'
+    resource :templates do
+      desc 'Get referral web bug insertion javascript template for account using token'
       params do
         requires :token, type: String, desc: 'account token'
       end
-      get do
+      get :referral do
         token = params[:token]
         server_host = env['SERVER_NAME'] + (env['SERVER_PORT'] != '80' ? ':' + env['SERVER_PORT'] : '')
         b = binding
-        rhtml = ERB.new(File.read('app/market_siphon/templates/web_bug_template.erb'))
+        rhtml = ERB.new(File.read('app/market_siphon/templates/referral_template.erb'))
+
+        rhtml.result b
+      end
+
+      desc 'Get conversion web bug insertion javascript template for account using token'
+      params do
+        requires :token, type: String, desc: 'account token'
+      end
+      get :conversion do
+        token = params[:token]
+        server_host = env['SERVER_NAME'] + (env['SERVER_PORT'] != '80' ? ':' + env['SERVER_PORT'] : '')
+        b = binding
+        rhtml = ERB.new(File.read('app/market_siphon/templates/conversion_template.erb'))
 
         rhtml.result b
       end
@@ -108,7 +121,6 @@ module MarketSiphon
           if account['target'] == target
             ip = env['REMOTE_ADDR']
 
-            puts "Saving to #{'referrals:' + token + ':visitor:' + ip}"
             referral = Redis::HashKey.new('referrals:' + token + ':visitor:' + ip)
 
             if !referral[:converted]
@@ -184,6 +196,32 @@ module MarketSiphon
         else
           error!({error: {message: 'Invalid token or token is not associated with specified target url.'}}, 403)
         end
+      end
+
+      desc 'Log a conversion of a possible referral via 1x1 pixel gif webbug'
+      params do
+        requires :token, type: String, desc: 'account token'
+      end
+      get :new do
+        content_type 'image/gif'
+
+        if env['HTTP_REFERER'] && token = params[:token]
+          target = URI(env['HTTP_REFERER']).host
+          account = Redis::HashKey.new('accounts:' + token)
+
+          if account['target'] == target
+            ip = env['REMOTE_ADDR']
+
+            referral = Redis::HashKey.new('referrals:' + token + ':visitor:' + ip)
+
+            if !referral.empty? && !referral['converted']
+              referral['conversion_url'] = params[:conversion_url]
+              referral['converted'] = true
+            end
+          end
+        end
+          
+        web_bug_gif
       end
     end
   end
