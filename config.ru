@@ -29,6 +29,7 @@ map '/assets' do
   environment.append_path "#{bootstrap_path}/vendor/assets/stylesheets"
   environment.append_path 'spec/javascripts'
   environment.append_path 'assets/images'
+  environment.append_path 'assets/fonts'
 
   Sprockets::Helpers.configure do |config|
     config.environment = environment

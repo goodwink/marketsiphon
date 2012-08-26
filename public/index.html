@@ -1,42 +1,401 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="MarketSiphon">
-<head>
+<html lang="en">
+  <head>
+  	
   <meta charset="utf-8">
   <title>Market Siphon</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+
+
   <link rel="stylesheet" href="/assets/application.css">
   <script src="/assets/application.js"></script>
-</head>
-<body>
-  <div class="container-fluid">
-    <div class="row-fluid" ng-controller="ReferralListController">
-      <div class="span4">
-        <form class="well form-search">
-          <input ng-model="query" type="text" class="input-medium search-query" placeholder="Filter..."></input>
-        </form>
-      </div>
-      <div class="span6">
-        <div class="well">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Source</th>
-                <th>Target</th>
-                <th>IP Address</th>
-                <th>Converted?</th>
-              </tr>
-            </thead>
-            <tbody class="referrals">
-              <tr ng-repeat="referral in referrals | filter:query">
-                <td>{{referral.source}}</td>
-                <td>{{referral.target}}</td>
-                <td>{{referral.ip}}</td>
-                <td>{{referral.converted}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
+
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  </head>
+
+  <body>
+    <div class="navbar navbar-fixed-top">
+    	
+    	<div class="navbar-inner">
+    		
+    		<div class="container">
+    			
+    			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    			</a>
+    			
+    			<a class="brand" href="./">
+    				Market Siphon				
+    			</a>			
+    			
+    			<div class="nav-collapse">
+    				<ul class="nav pull-right">
+    					<li class="active">						
+    						<a href="./">
+    							Home
+    						</a>						
+    					</li>
+    					
+    					<li class="dropdown">						
+    						<a href="./plans.html">
+    							Plans
+    						</a>						
+    					</li>
+    					
+    					<li>						
+    						<a href="./features.html">
+    							Features
+    						</a>						
+    					</li>
+    					
+    					<li>						
+    						<a href="./about.html">
+    							About Us
+    						</a>						
+    					</li>
+    					
+    					<li>						
+    						<a href="./faq.html">
+    							FAQ
+    						</a>						
+    					</li>
+    			
+    					<li>						
+    						<a href="./contact.html">
+    							Contact Us
+    						</a>						
+    					</li>
+    				</ul>
+    				
+    			</div><!--/.nav-collapse -->	
+    	
+    		</div> <!-- /container -->
+    		
+    	</div> <!-- /navbar-inner -->
+    	
+    </div> <!-- /navbar -->
+
+           
+    	
+    <div id="landing">
+    	
+    	<div class="inner">
+    		
+    		<div class="container">
+    		
+    			<div class="row">
+    				
+    				
+    				<div class="span4 landing-text">
+    				
+    	
+    					<h1>Referral marketing made easy.</h1>
+    					
+    					<p>Market Siphon makes it easy for any site to increase traffic and conversions with sponsored links.  You only pay for traffic that converts to sales.  There's no special links for affiliates to add, so it's easy for any content creator to participate.</p>
+    					
+    					<p class="landing-actions">
+    						<a href="plans.html" class="btn btn-large btn-inverse btn-cta">Get started &raquo;</a>
+    					</p>		
+    									
+    								
+    					
+    					
+    				</div> <!-- /landing-text -->			
+    				
+    				<div id="landing-carousel" class="span8 landing-screenshot carousel slide">	
+              <div class="carousel-inner">
+                <div class="active item">
+                  <img src="/assets/grab.png">
+                  <div class="carousel-caption">
+                    <h3>1. Setup Your Site</h4>
+                    <p>After signing up all you have to do to get started is paste a small bit of text we'll give you into your landing page and your conversion page.  Affiliates don't have to do anything at all, they can use normal links with no special codes.</p>
+                  </div>
+                </div>
+                <div class="item">
+                  <img src="/assets/grab.png">
+                  <div class="carousel-caption">
+                    <h3>2. A Visitor Follows a Link to Your Site</h4>
+                    <p>When a visitor follows a link to your site from an affiliate Market Siphon records the click and then waits to see if the new visitor converts to a sale.</p>
+                  </div>
+                </div>
+                <div class="item">
+                  <img src="/assets/grab.png">
+                  <div class="carousel-caption">
+                    <h3>3. The Visitor Converts to a Sale</h4>
+                    <p>When a visitor from an affiliate completes a sale or visits any page you choose as a conversion page Market Siphon records the conversion and credits the affiliate's account.</p>
+                  </div>
+                </div>
+                <div class="item">
+                  <img src="/assets/grab.png">
+                  <div class="carousel-caption">
+                    <h3>Payday!</h4>
+                    <p>Market Siphon takes care of collecting the commissions from advertisers and paying affiliates.  You don't have to manage your affiliates and you'll only have one, consolidated payment even if you have thousands of affiliates.</p>
+                  </div>
+                </div>
+              </div>
+    					<a class="carousel-control left" href="#landing-carousel" data-slide="prev">&lsaquo;</a>
+              <a class="carousel-control right" href="#landing-carousel" data-slide="next">&rsaquo;</a>
+    				</div>
+    				
+    			</div> <!-- .row -->
+    			
+    		</div> <!-- /container -->
+    			
+    	</div> <!-- /inner -->
+    	
+    </div> <!-- /landing --> 
+        
+
+
+     <div id="content">
+    				
+    	<div class="inner">		
+    		
+    		<div class="container">
+    			
+    			<div class="row">
+    			
+    				<div class="span12">
+    				
+    						<h3><span class="slash">//</span> What You'll Get</h3>
+    						
+    						
+    						<ul class="features-list">
+    							<li class="feature">
+    								<div class="feature-thumbnail">
+    									<div class="circle-icon">
+    										<div>
+    											<i class="icon-thumbs-up"></i>
+    										</div>
+    									</div> <!-- /circle-icon -->
+    								</div> <!-- /feature-thumbnail -->
+    								
+    								<div class="feature-content">
+    									<h3>Easy, Hands-off Management</h3>
+    									<p>Market Siphon takes the work out of sponsored links.  We'll manage your referral marketing for you to drive the high-quality traffic that leads to sales.</p>									
+    								</div> <!-- /feature-content -->
+    							</li>
+    							<li class="feature">
+    								<div class="feature-thumbnail">
+    									<div class="circle-icon">
+    										<div>
+    											<i class="icon-magic"></i>
+    										</div>
+    									</div> <!-- /circle-icon -->
+    								</div> <!-- /feature-thumbnail -->
+    								
+    								<div class="feature-content">
+    									<h3>No Special Links for Affiliates</h3>
+    									<p>Market Siphon's technology makes affiliate codes in links a thing of the past so bloggers and other affiliates can get paid without the overhead or risk of setting up special links.</p>
+    							</div> <!-- /feature-content -->
+    							</li>
+    							<li class="feature">
+    								<div class="feature-thumbnail">
+    									<div class="circle-icon">
+    										<div>
+    											<i class="icon-trophy"></i>
+    										</div>
+    									</div> <!-- /circle-icon -->
+    								</div> <!-- /feature-thumbnail -->
+    								
+    								<div class="feature-content">
+    									<h3>Better Return on Investment</h3>
+    									<p>Since you only pay for traffic that results in a sale or other conversion you know exactly what you're paying for up front.</p>
+    							</div> <!-- /feature-content -->
+    							</li>
+    							<li class="feature">
+    								<div class="feature-thumbnail">
+    									<div class="circle-icon">
+    										<div>
+    											<i class="icon-ok"></i>
+    										</div>
+    									</div> <!-- /circle-icon -->
+    								</div> <!-- /feature-thumbnail -->
+    								
+    								<div class="feature-content">
+    									<h3>No Guesses Required</h3>
+    									<p>Unlike other online marketing techniques there's no need to guess how much a visitor is worth to you and how likely a visit is to convert to a sale.</p>
+    							</div> <!-- /feature-content -->
+    							</li>
+    							<li class="feature">
+    								<div class="feature-thumbnail">
+    									<div class="circle-icon">
+    										<div>
+    											<i class="icon-money"></i>
+    										</div>
+    									</div> <!-- /circle-icon -->
+    								</div> <!-- /feature-thumbnail -->
+    								
+    								<div class="feature-content">
+    									<h3>Better traffic, More Sales</h3>
+    									<p>Affiliates compensated only for conversions drive higher-quality traffic and increase sales.  Sponsored links are the most cost-effective way to increase organic growth.</p>
+    							</div> <!-- /feature-content -->
+    							</li>
+    							<li class="feature">
+    								<div class="feature-thumbnail">
+    									<div class="circle-icon">
+    										<div>
+    											<i class="icon-dashboard"></i>
+    										</div>
+    									</div> <!-- /circle-icon -->
+    								</div> <!-- /feature-thumbnail -->
+    								
+    								<div class="feature-content">
+    									<h3>Developer API</h3>
+    									<p>In addition to our easy drop-in solution, Market Sihpon also provides a full developer API for sites that need richer integration with even better metrics and reporting.</p>
+    							</div> <!-- /feature-content -->
+    							</li>
+    						</ul> <!-- /features-list -->
+    					
+    				</div> <!-- /span12 -->
+    				
+    			</div> <!-- /row -->
+
+          <div class="row">
+
+            <div class="span4 offset4 landing-actions">
+              <a href="plans.html" class="btn btn-large btn-inverse btn-cta">Get started &raquo;</a>
+            </div>
+
+          </div>
+    			
+    		</div> <!-- /container -->	
+    		
+    	</div> <!-- /inner -->
+    	
+    </div> <!-- /content -->   
+    			
+    			
+    			
+    <div id="extra">
+    	
+    	<div class="inner">
+    		
+    		<div class="container">
+    			
+    			<div class="row">
+    				
+    				<div class="span4">
+    					
+    					<h3><span class="slash">//</span> Quick Links</h3>
+    					
+    					
+    					<ul class="footer-links clearfix">
+                            <li><a href="./">Home</a></li>
+                            <li><a href="./pricing.html">Plans</a></li>
+                            <li><a href="../features.html">Features</a></li>
+                            <li><a href="./about.html">About</a></li>
+                            <li><a href="./faq.html">FAQ</a></li>
+                        </ul>
+                        
+                        <ul class="footer-links clearfix">  	
+                            <li><a href="javascript:;">Support</a></li>
+                            <li><a href="javascript:;">Developer API</a></li>
+                            <li><a href="javascript:;">License</a></li>
+                            <li><a href="javascript:;">Terms of Use</a></li>
+                            <li><a href="javascript:;">Privacy Policy</a></li>
+                        </ul>
+    					
+    				</div> <!-- /span4 -->
+    				
+    				
+    				<div class="span4">
+    					
+    					<h3><span class="slash">//</span> Stay In Touch</h3>
+    					
+    					
+    					<p>There are real people behind Market Siphon, so if you have a question or suggestion (no matter how small) please get in touch with us:</p>
+    					
+    					<ul class="social-icons-container">
+    						
+    						<li>
+    							<a href="javascript:;" class="social-icon social-icon-twitter">
+    								<i class="icon-twitter"></i>
+    							</a>
+    						</li>
+    							
+    						<li>
+    							<a href="javascript:;" class="social-icon social-icon-googleplus">
+    								<i class="icon-google-plus"></i>
+    							</a>
+    						</li>
+    						
+    						<li>							
+    							<a href="javascript:;" class="social-icon social-icon-facebook">
+    								<i class="icon-facebook"></i>
+    							</a>
+    						</li>
+
+                <li>              
+                  <a href="javascript:;" class="social-icon social-icon-github">
+                    <i class="icon-github"></i>
+                  </a>
+                </li>
+    						
+    					</ul> <!-- /extra-social -->
+    					
+    				</div> <!-- /span4 -->
+    				
+    				<div id="subscribe" class="span4">
+    					
+    					<h3><span class="slash">//</span> Subscribe and get updates</h3>
+    					
+
+    					<p>Subscribe to our newsletter and get exclusive deals you wont find anywhere else straight to your inbox!</p>
+    					
+    					
+    					<form class=".form-inline">
+    						
+    						<div class="input-prepend input-append">
+                  <span class="add-on"><i class="icon-envelope-alt"></i></span><input type="text" name="subscribe_email" placeholder="Your Email" /><button class="btn">Subscribe</button>
+                </div>
+    						
+    					</form>
+    					
+    					
+    				</div> <!-- /span4 -->
+    				
+    			</div> <!-- /row -->
+    			
+    		</div> <!-- /container -->
+    		
+    	</div> <!-- /inner -->
+    	
+    </div> <!-- /extra -->
+    			
+    			
+    			
+    			
+    <div id="footer">
+    					
+    	<div class="inner">
+    	
+    		<div class="container">
+    		
+    			<div class="row">
+    				<div id="footer-copyright" class="span4">
+    					&copy; 2012 Market Siphon LLC.
+    				</div> <!-- /span4 -->
+    				
+    				<div id="footer-terms" class="span8">
+    					
+    				</div> <!-- /span8 -->
+    			</div> <!-- /row -->
+    			
+    		</div> <!-- /container -->
+    		
+    	</div> <!-- /inner -->
+    	
+    </div> <!-- /footer -->
+  </body>
 </html>
